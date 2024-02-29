@@ -20,6 +20,16 @@ chlistGet.get("/", async (c) => {
       return c.json({ error: e }, 500);
     }
   }
+  if (!ch_id && syear && sseason) {
+    try {
+      let { results } = await c.env.DB.prepare(
+        `SELECT * FROM chlist WHERE syear = ${syear} AND sseason = "${sseason}"`
+      ).all();
+      return c.json(results);
+    } catch (e) {
+      return c.json({ error: e }, 500);
+    }
+  }
   try {
     let { results } = await c.env.DB.prepare("SELECT * FROM chlist").all();
     return c.json(results);
