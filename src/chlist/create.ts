@@ -7,7 +7,7 @@ type Bindings = {
 
 const chlistCreate = new Hono<{ Bindings: Bindings }>();
 
-seasonCreate.get("/create", async (c) => {
+chlistCreate.get("/create", async (c) => {
   const ch_id = c.req.query("ch_id");
   const ch_title = c.req.query("ch_title");
   const ch_url = c.req.query("ch_url");
