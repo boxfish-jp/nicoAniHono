@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `chlist`;
 CREATE TABLE IF NOT EXISTS `chlist` (
     chlist_id INTEGER PRIMARY KEY AUTOINCREMENT,
     caddtime TEXT DEFAULT (datetime('now','localtime')) ,
@@ -14,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `chlist` (
     ch_thumb TEXT
 );
 
+DROP TABLE IF EXISTS `ranking`;
 CREATE TABLE IF NOT EXISTS `ranking` (
     ranking_id INTEGER PRIMARY KEY AUTOINCREMENT,
     raddtime TEXT DEFAULT (datetime('now','localtime')) ,
@@ -30,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `ranking` (
     r_diff_comment INTEGER
 );
 
+DROP TABLE IF EXISTS `season`;
 CREATE TABLE IF NOT EXISTS `season` (
     season_id INTEGER PRIMARY KEY AUTOINCREMENT,
     saddtime TEXT DEFAULT (datetime('now','localtime')) ,
@@ -38,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `season` (
     sdesc TEXT
 );
 
+DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos` (
     video_id INTEGER PRIMARY KEY AUTOINCREMENT,
     vaddtime TEXT DEFAULT (datetime('now','localtime')) ,
@@ -45,11 +49,12 @@ CREATE TABLE IF NOT EXISTS `videos` (
     ch_seq INTEGER,
     ch_seq_url TEXT,
     ch_seq_title TEXT,
-    ch_seq_desc TEXT,
     ch_seq_thumb TEXT,
-    ch_seq_detail TEXT
+    ch_seq_desc TEXT,
+    ch_seq_posted TEXT
 );
 
+DROP TABLE IF EXISTS `viewData`;
 CREATE TABLE IF NOT EXISTS `viewData` (
     viewData_id INTEGER PRIMARY KEY AUTOINCREMENT,
     daddtime TEXT DEFAULT (datetime('now','localtime')) ,
