@@ -7,6 +7,7 @@ import chlistCreate from "./chlist/create";
 import chlistDelete from "./chlist/delete";
 import videosCreate from "./videos/create";
 import videosGet from "./videos/get";
+import videosDelete from "./videos/delete";
 
 const app = new Hono();
 
@@ -18,5 +19,6 @@ app.route("/chlist", chlistCreate);
 app.route("/chlist", chlistDelete);
 app.route("/videos", videosCreate);
 app.route("/videos", videosGet);
+app.route("/videos", videosDelete);
 
 export default app;
