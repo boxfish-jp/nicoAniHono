@@ -10,6 +10,7 @@ import videosGet from "./videos/get";
 import videosDelete from "./videos/delete";
 import viewDataGet from "./viewData/get";
 import viewDataCreate from "./viewData/create";
+import viewDataDelete from "./viewData/delete";
 
 const app = new Hono();
 
@@ -24,5 +25,6 @@ app.route("/videos", videosGet);
 app.route("/videos", videosDelete);
 app.route("/viewData", viewDataGet);
 app.route("/viewData", viewDataCreate);
+app.route("/viewData", viewDataDelete);
 
 export default app;
