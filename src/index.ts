@@ -8,6 +8,8 @@ import chlistDelete from "./chlist/delete";
 import videosCreate from "./videos/create";
 import videosGet from "./videos/get";
 import videosDelete from "./videos/delete";
+import viewDataGet from "./viewData/get";
+import viewDataCreate from "./viewData/create";
 
 const app = new Hono();
 
@@ -20,5 +22,7 @@ app.route("/chlist", chlistDelete);
 app.route("/videos", videosCreate);
 app.route("/videos", videosGet);
 app.route("/videos", videosDelete);
+app.route("/viewData", viewDataGet);
+app.route("/viewData", viewDataCreate);
 
 export default app;
