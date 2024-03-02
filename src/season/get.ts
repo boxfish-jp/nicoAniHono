@@ -12,7 +12,7 @@ seasonGet.get("/", async (c) => {
   if (!syear || !sseason) {
     try {
       let { results } = await c.env.DB.prepare("SELECT * FROM season").all();
-      return c.json(results);
+      return c.json({ result: results });
     } catch (e) {
       return c.json({ error: String(e) }, 500);
     }
@@ -21,7 +21,7 @@ seasonGet.get("/", async (c) => {
     let { results } = await c.env.DB.prepare(
       `SELECT * FROM season WHERE syear = ${syear} AND sseason = ${sseason}`
     ).all();
-    return c.json(results);
+    return c.json({ result: results });
   } catch (e: any) {
     return c.json({ error: e.message }, 500);
   }

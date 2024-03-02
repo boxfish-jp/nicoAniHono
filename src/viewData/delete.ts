@@ -15,7 +15,7 @@ viewDataDelete.get("/delete/:viewdata_id", async (c) => {
     const sql = `DELETE FROM viewData WHERE viewdata_id = '${viewdata_id}'`;
     let { results } = await c.env.DB.prepare(sql).all();
     console.log(results);
-    return c.json({ result: "ok" });
+    return c.json({ result: results });
   } catch (e) {
     return c.json({ error: String(e) }, 500);
   }

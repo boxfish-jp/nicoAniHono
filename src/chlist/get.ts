@@ -15,7 +15,7 @@ chlistGet.get("/", async (c) => {
       let { results } = await c.env.DB.prepare(
         `SELECT * FROM chlist WHERE ch_id = ${ch_id}`
       ).all();
-      return c.json(results);
+      return c.json({ result: results });
     } catch (e) {
       return c.json({ error: e }, 500);
     }
@@ -25,14 +25,14 @@ chlistGet.get("/", async (c) => {
       let { results } = await c.env.DB.prepare(
         `SELECT * FROM chlist WHERE syear = ${syear} AND sseason = "${sseason}"`
       ).all();
-      return c.json(results);
+      return c.json({ result: results });
     } catch (e) {
       return c.json({ error: e }, 500);
     }
   }
   try {
     let { results } = await c.env.DB.prepare("SELECT * FROM chlist").all();
-    return c.json(results);
+    return c.json({ result: results });
   } catch (e) {
     return c.json({ error: e }, 500);
   }

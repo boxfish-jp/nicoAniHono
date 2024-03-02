@@ -31,8 +31,7 @@ viewDataCreate.get("/create", async (c) => {
   try {
     const sql = `INSERT INTO viewData (ch_id, ch_seq, view_amount, comment_amount, mylist_amount, diff_view, diff_comment, diff_mylist) VALUES ('${ch_id}', '${ch_seq}', '${view_amount}', '${comment_amount}', '${mylist_amount}', '${diff_view}', '${diff_comment}', '${diff_mylist}')`;
     let { results } = await c.env.DB.prepare(sql).all();
-    console.log(results);
-    return c.json({ result: "ok" });
+    return c.json({ result: results });
   } catch (e) {
     return c.json({ error: String(e) }, 500);
   }
