@@ -4,9 +4,9 @@ type Bindings = {
   DB: D1Database;
 };
 
-const chlistGet = new Hono<{ Bindings: Bindings }>();
+const videosGet = new Hono<{ Bindings: Bindings }>();
 
-chlistGet.get("/", async (c) => {
+videosGet.get("/", async (c) => {
   const ch_id = c.req.query("ch_id");
   const ch_seq = c.req.query("ch_seq");
   const ch_seq_url = c.req.query("ch_seq_url");
@@ -48,4 +48,4 @@ chlistGet.get("/", async (c) => {
   }
 });
 
-export default chlistGet;
+export default videosGet;
