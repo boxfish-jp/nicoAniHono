@@ -4,6 +4,7 @@ const parseChlist = async (data: Response) =>
       chlist_id: number;
       caddtime: string;
       ch_id: number;
+      ch_NaniTag: string;
       ch_title: string;
       ch_url: string;
       ch_detail: string;
@@ -19,12 +20,19 @@ const parseChlist = async (data: Response) =>
 
 test("chlist", async () => {
   const data = await fetch(
-    "http://localhost:8787/chlist/create?ch_id=1000&ch_title=test2&ch_url=localhost2&ch_detail=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&ch_LtstFree=1&ch_PrmFree=0&syear=2024&sseason=1&ch_twt=boxfish_jp&ch_site=nothing&ch_thumb=thumb"
+    "http://localhost:8787/chlist/create?ch_id=1000&ch_NaniTag=test2&ch_title=test2&ch_url=localhost2&ch_detail=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&ch_LtstFree=1&ch_PrmFree=0&syear=2024&sseason=1&ch_twt=boxfish_jp&ch_site=nothing&ch_thumb=thumb"
   );
   expect(data.status).toBe(200);
   const result = await data.json();
 
   expect(result).toEqual({ result: [] });
+
+  const getDataFromTag = await fetch(
+    "http://localhost:8787/chlist?ch_NaniTag=test2"
+  );
+  expect(getDataFromTag.status).toBe(200);
+  const getResultFromTag = await parseChlist(getDataFromTag);
+  expect(getResultFromTag.result.length).toBeGreaterThan(0);
 
   const getData0 = await fetch("http://localhost:8787/chlist?ch_id=2000");
   expect(getData0.status).toBe(200);

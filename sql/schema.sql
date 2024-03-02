@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `chlist` (
     chlist_id INTEGER PRIMARY KEY AUTOINCREMENT,
     caddtime TEXT DEFAULT (datetime('now','localtime')) ,
     ch_id INTEGER,
+    ch_NaniTag TEXT,
     ch_title TEXT,
     ch_url TEXT,
     ch_detail TEXT,
