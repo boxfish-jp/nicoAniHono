@@ -27,6 +27,9 @@ CREATE TABLE IF NOT EXISTS `ranking` (
     r_ave_view INTEGER,
     r_ave_mylist INTEGER,
     r_ave_comment INTEGER,
+    r_ave_view_rank INTEGER,
+    r_ave_mylist_rank INTEGER,
+    r_ave_comment_rank INTEGER,
     r_diff_view INTEGER,
     r_diff_mylist INTEGER,
     r_diff_comment INTEGER

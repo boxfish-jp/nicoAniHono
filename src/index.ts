@@ -11,6 +11,9 @@ import videosDelete from "./videos/delete";
 import viewDataGet from "./viewData/get";
 import viewDataCreate from "./viewData/create";
 import viewDataDelete from "./viewData/delete";
+import rankingGet from "./ranking/get";
+import rankingCreate from "./ranking/create";
+import rankingDelete from "./ranking/delete";
 
 const app = new Hono();
 
@@ -26,5 +29,8 @@ app.route("/videos", videosDelete);
 app.route("/viewData", viewDataGet);
 app.route("/viewData", viewDataCreate);
 app.route("/viewData", viewDataDelete);
+app.route("/ranking", rankingGet);
+app.route("/ranking", rankingCreate);
+app.route("/ranking", rankingDelete);
 
 export default app;
