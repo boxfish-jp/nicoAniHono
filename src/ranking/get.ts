@@ -8,13 +8,12 @@ const rankingGet = new Hono<{ Bindings: Bindings }>();
 
 rankingGet.get("/", async (c) => {
   const ch_id = c.req.query("ch_id");
-  const r_current_seq = c.req.query("r_current_seq");
   const raddtime = c.req.query("raddtime");
-  if (ch_id && r_current_seq) {
+  if (ch_id) {
     if (raddtime) {
       try {
         let { results } = await c.env.DB.prepare(
-          `SELECT * FROM ranking WHERE ch_id = ${ch_id} AND r_current_seq = ${r_current_seq} AND raddtime > "${raddtime}"`
+          `SELECT * FROM ranking WHERE ch_id = ${ch_id} AND raddtime < "${raddtime} ORDER BY daddtime DESC LIMIT 1"`
         ).all();
         return c.json({ result: results });
       } catch (e) {
@@ -23,7 +22,7 @@ rankingGet.get("/", async (c) => {
     } else {
       try {
         let { results } = await c.env.DB.prepare(
-          `SELECT * FROM ranking WHERE ch_id = ${ch_id} AND r_current_seq = ${r_current_seq}`
+          `SELECT * FROM ranking WHERE ch_id = ${ch_id}`
         ).all();
         return c.json({ result: results });
       } catch (e) {

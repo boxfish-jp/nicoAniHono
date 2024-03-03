@@ -28,7 +28,7 @@ test("ranking", async () => {
   expect(createResult).toEqual({ result: [] });
 
   const getData0 = await fetch(
-    "http://localhost:8787/ranking?ch_id=9000&r_current_seq=1&raddtime=2024-03-02 12:00:00"
+    "http://localhost:8787/ranking?ch_id=9000&raddtime=2024-03-01 12:00:00"
   );
   expect(getData0.status).toBe(200);
   const getResult0 = await parseRanking(getData0);
@@ -46,9 +46,7 @@ test("ranking", async () => {
     );
     expect(deleteData.status).toBe(200);
 
-    const confirmData = await fetch(
-      "http://localhost:8787/ranking?ch_id=9000&r_current_seq=1"
-    );
+    const confirmData = await fetch("http://localhost:8787/ranking?ch_id=9000");
     expect(confirmData.status).toBe(200);
 
     const confirmResult = await parseRanking(confirmData);
