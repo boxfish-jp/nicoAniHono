@@ -38,8 +38,8 @@ chlistCreate.get("/create", async (c) => {
     return c.json({ error: "Invalid parameter" }, 400);
   }
   if (encode === "true") {
-    ch_title = decodeURIComponent(ch_title);
-    ch_detail = decodeURIComponent(ch_detail);
+    ch_title = decodeURIComponent(ch_title).replace(/'/g, "''");
+    ch_detail = decodeURIComponent(ch_detail).replace(/'/g, "''");
   }
   try {
     const sql = `INSERT INTO chlist (ch_id, ch_NaniTag, ch_title, ch_url, ch_detail, ch_LtstFree, ch_PrmFree, syear, sseason, ch_twt, ch_site, ch_thumb) VALUES ('${ch_id}', '${ch_NaniTag}', '${ch_title}', '${ch_url}', '${ch_detail}', '${ch_LtstFree}', '${ch_PrmFree}', '${syear}', '${sseason}', '${ch_twt}', '${ch_site}', '${ch_thumb}')`;
