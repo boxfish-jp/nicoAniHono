@@ -5,6 +5,7 @@ const parseViewData = async (data: Response) =>
       daddtime: string;
       ch_id: number;
       ch_seq: number;
+      ch_seq_id: number;
       view_amount: number;
       comment_amount: number;
       mylist_amount: number;
@@ -16,10 +17,16 @@ const parseViewData = async (data: Response) =>
 
 test("viewData", async () => {
   const createData = await fetch(
-    "http://localhost:8787/viewData/create?ch_id=4678&ch_seq=1&view_amount=1000&comment_amount=2000&mylist_amount=3000&diff_view=10&diff_comment=20&diff_mylist=30"
+    "http://localhost:8787/viewData/create?ch_id=4678&ch_seq=1&ch_seq_id=65432&view_amount=1000&comment_amount=2000&mylist_amount=3000&diff_view=10&diff_comment=20&diff_mylist=30"
   );
   const createResult = await createData.json();
   expect(createResult).toEqual({ result: [] });
+
+  const getDataFromseqId = await fetch(
+    "http://localhost:8787/viewData?ch_seq_id=65432"
+  );
+  const getResultFromseqId = await parseViewData(getDataFromseqId);
+  expect(getResultFromseqId.result.length).toBe(1);
 
   const getData = await fetch("http://localhost:8787/viewData");
   const getResult = await parseViewData(getData);

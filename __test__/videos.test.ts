@@ -6,6 +6,7 @@ const parseVideos = async (data: Response) =>
       ch_id: number;
       ch_seq: number;
       ch_seq_url: string;
+      ch_seq_id: number;
       ch_seq_title: string;
       ch_seq_thumb: string;
       ch_seq_detail: string;
@@ -15,10 +16,16 @@ const parseVideos = async (data: Response) =>
 
 test("videos", async () => {
   const createData = await fetch(
-    "http://localhost:8787/videos/create?ch_id=5563&ch_seq=2&ch_seq_url=0005&ch_seq_title=テスト&ch_seq_thumb=testing&ch_seq_desc=テストテストテストテスト&ch_seq_posted=2024/03/01 00:00:00"
+    "http://localhost:8787/videos/create?ch_id=5563&ch_seq=2&ch_seq_url=65432&ch_seq_id=65432&ch_seq_title=テスト&ch_seq_thumb=testing&ch_seq_desc=テストテストテストテスト&ch_seq_posted=2024/03/01 00:00:00"
   );
   const createResult = await createData.json();
   expect(createResult).toEqual({ result: [] });
+
+  const getDataFromseqId = await fetch(
+    "http://localhost:8787/videos?ch_seq_id=65432"
+  );
+  const getResultFromseqId = await parseVideos(getDataFromseqId);
+  expect(getResultFromseqId.result.length).toBe(1);
 
   const getData0 = await fetch(
     "http://localhost:8787/videos?ch_id=5563&ch_seq=3"

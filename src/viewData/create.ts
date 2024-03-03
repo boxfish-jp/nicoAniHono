@@ -9,6 +9,7 @@ const viewDataCreate = new Hono<{ Bindings: Bindings }>();
 viewDataCreate.get("/create", async (c) => {
   const ch_id = c.req.query("ch_id");
   const ch_seq = c.req.query("ch_seq");
+  const ch_seq_id = c.req.query("ch_seq_id");
   const view_amount = c.req.query("view_amount");
   const comment_amount = c.req.query("comment_amount");
   const mylist_amount = c.req.query("mylist_amount");
@@ -19,6 +20,7 @@ viewDataCreate.get("/create", async (c) => {
   if (
     !ch_id ||
     !ch_seq ||
+    !ch_seq_id ||
     !view_amount ||
     !comment_amount ||
     !mylist_amount ||
@@ -29,7 +31,7 @@ viewDataCreate.get("/create", async (c) => {
     return c.json({ error: "Invalid parameter" }, 400);
   }
   try {
-    const sql = `INSERT INTO viewData (ch_id, ch_seq, view_amount, comment_amount, mylist_amount, diff_view, diff_comment, diff_mylist) VALUES ('${ch_id}', '${ch_seq}', '${view_amount}', '${comment_amount}', '${mylist_amount}', '${diff_view}', '${diff_comment}', '${diff_mylist}')`;
+    const sql = `INSERT INTO viewData (ch_id, ch_seq, ch_seq_id, view_amount, comment_amount, mylist_amount, diff_view, diff_comment, diff_mylist) VALUES ('${ch_id}', '${ch_seq}', '${ch_seq_id}', '${view_amount}', '${comment_amount}', '${mylist_amount}', '${diff_view}', '${diff_comment}', '${diff_mylist}')`;
     let { results } = await c.env.DB.prepare(sql).all();
     return c.json({ result: results });
   } catch (e) {

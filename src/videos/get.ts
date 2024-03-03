@@ -9,7 +9,7 @@ const videosGet = new Hono<{ Bindings: Bindings }>();
 videosGet.get("/", async (c) => {
   const ch_id = c.req.query("ch_id");
   const ch_seq = c.req.query("ch_seq");
-  const ch_seq_url = c.req.query("ch_seq_url");
+  const ch_seq_id = c.req.query("ch_seq_id");
   if (ch_id) {
     if (ch_seq) {
       try {
@@ -30,10 +30,10 @@ videosGet.get("/", async (c) => {
       return c.json({ error: e }, 500);
     }
   }
-  if (ch_seq_url) {
+  if (ch_seq_id) {
     try {
       let { results } = await c.env.DB.prepare(
-        `SELECT * FROM videos WHERE ch_seq_url = '${ch_seq_url}'`
+        `SELECT * FROM videos WHERE ch_seq_id = '${ch_seq_id}'`
       ).all();
       return c.json({ result: results });
     } catch (e) {

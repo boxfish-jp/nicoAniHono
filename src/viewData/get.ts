@@ -9,9 +9,20 @@ const viewDataGet = new Hono<{ Bindings: Bindings }>();
 viewDataGet.get("/", async (c) => {
   const ch_id = c.req.query("ch_id");
   const ch_seq = c.req.query("ch_seq");
+  const ch_seq_id = c.req.query("ch_seq_id");
   if (!ch_id || !ch_seq) {
     try {
       const sql = `SELECT * FROM viewData`;
+      let { results } = await c.env.DB.prepare(sql).all();
+      console.log(results);
+      return c.json({ result: results });
+    } catch (e) {
+      return c.json({ error: String(e) }, 500);
+    }
+  }
+  if (ch_seq_id) {
+    try {
+      const sql = `SELECT * FROM viewData WHERE ch_seq_id = '${ch_seq_id}'`;
       let { results } = await c.env.DB.prepare(sql).all();
       console.log(results);
       return c.json({ result: results });
