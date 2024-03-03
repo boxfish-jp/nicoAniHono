@@ -10,9 +10,9 @@ const chlistCreate = new Hono<{ Bindings: Bindings }>();
 chlistCreate.get("/create", async (c) => {
   const ch_id = c.req.query("ch_id");
   const ch_NaniTag = c.req.query("ch_NaniTag");
-  const ch_title = c.req.query("ch_title");
+  let ch_title = c.req.query("ch_title");
   const ch_url = c.req.query("ch_url");
-  const ch_detail = c.req.query("ch_detail");
+  let ch_detail = c.req.query("ch_detail");
   const ch_LtstFree = c.req.query("ch_LtstFree");
   const ch_PrmFree = c.req.query("ch_PrmFree");
   const syear = c.req.query("syear");
@@ -20,6 +20,7 @@ chlistCreate.get("/create", async (c) => {
   const ch_twt = c.req.query("ch_twt");
   const ch_site = c.req.query("ch_site");
   const ch_thumb = c.req.query("ch_thumb");
+  const encode = c.req.query("encode");
   if (
     !ch_id ||
     !ch_NaniTag ||
@@ -35,6 +36,10 @@ chlistCreate.get("/create", async (c) => {
     !ch_thumb
   ) {
     return c.json({ error: "Invalid parameter" }, 400);
+  }
+  if (encode === "true") {
+    ch_title = decodeURIComponent(ch_title);
+    ch_detail = decodeURIComponent(ch_detail);
   }
   try {
     const sql = `INSERT INTO chlist (ch_id, ch_NaniTag, ch_title, ch_url, ch_detail, ch_LtstFree, ch_PrmFree, syear, sseason, ch_twt, ch_site, ch_thumb) VALUES ('${ch_id}', '${ch_NaniTag}', '${ch_title}', '${ch_url}', '${ch_detail}', '${ch_LtstFree}', '${ch_PrmFree}', '${syear}', '${sseason}', '${ch_twt}', '${ch_site}', '${ch_thumb}')`;
