@@ -10,17 +10,30 @@ viewDataGet.get("/", async (c) => {
   const ch_id = c.req.query("ch_id");
   const ch_seq = c.req.query("ch_seq");
   const ch_seq_id = c.req.query("ch_seq_id");
-  if (!ch_id || !ch_seq) {
-    try {
-      const sql = `SELECT * FROM viewData`;
-      let { results } = await c.env.DB.prepare(sql).all();
-      console.log(results);
-      return c.json({ result: results });
-    } catch (e) {
-      return c.json({ error: String(e) }, 500);
-    }
-  }
+  const daddtime = c.req.query("daddtime");
   if (ch_seq_id) {
+    if (daddtime) {
+      try {
+        const sql = `SELECT * FROM viewData WHERE ch_seq_id = '${ch_seq_id}' AND daddtime < '${daddtime}' ORDER BY daddtime DESC LIMIT 1`;
+        console.log(sql);
+        let { results } = await c.env.DB.prepare(sql).all();
+        console.log(results);
+        return c.json({ result: results });
+      } catch (e) {
+        return c.json({ error: String(e) }, 500);
+      }
+    }
+    if (ch_seq) {
+      try {
+        const sql = `SELECT * FROM viewData WHERE ch_seq_id = '${ch_seq_id}' AND ch_seq = '${ch_seq}'`;
+        let { results } = await c.env.DB.prepare(sql).all();
+        console.log(results);
+        return c.json({ result: results });
+      } catch (e) {
+        return c.json({ error: String(e) }, 500);
+      }
+    }
+
     try {
       const sql = `SELECT * FROM viewData WHERE ch_seq_id = '${ch_seq_id}'`;
       let { results } = await c.env.DB.prepare(sql).all();
@@ -31,7 +44,7 @@ viewDataGet.get("/", async (c) => {
     }
   }
   try {
-    const sql = `SELECT * FROM viewData WHERE ch_id = '${ch_id}' AND ch_seq = '${ch_seq}'`;
+    const sql = `SELECT * FROM viewData`;
     let { results } = await c.env.DB.prepare(sql).all();
     console.log(results);
     return c.json({ result: results });
