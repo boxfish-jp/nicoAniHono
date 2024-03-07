@@ -39,7 +39,28 @@ rankingCreate.get("/create", async (c) => {
     !r_diff_comment ||
     !r_diff_mylist
   ) {
-    return c.json({ error: "Invalid parameter" }, 400);
+    return c.json(
+      {
+        error: "Invalid parameter",
+        url: {
+          ch_id: ch_id,
+          r_current_seq: r_current_seq,
+          r_total_view: r_total_view ? true : false,
+          r_total_mylist: r_total_mylist ? true : false,
+          r_total_comment: r_total_comment ? true : false,
+          r_ave_view: r_ave_view ? true : false,
+          r_ave_comment: r_ave_comment ? true : false,
+          r_ave_mylist: r_ave_mylist ? true : false,
+          r_ave_view_rank: r_ave_view_rank ? true : false,
+          r_ave_mylist_rank: r_ave_mylist_rank ? true : false,
+          r_ave_comment_rank: r_ave_comment_rank ? true : false,
+          r_diff_view: r_diff_view ? true : false,
+          r_diff_comment: r_diff_comment ? true : false,
+          r_diff_mylist: r_diff_mylist ? true : false,
+        },
+      },
+      400
+    );
   }
   if (!raddtime) {
     try {

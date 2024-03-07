@@ -35,7 +35,26 @@ chlistCreate.get("/create", async (c) => {
     !ch_site ||
     !ch_thumb
   ) {
-    return c.json({ error: "Invalid parameter" }, 400);
+    return c.json(
+      {
+        error: "Invalid parameter",
+        url: {
+          ch_id: ch_id,
+          ch_NaniTag: ch_NaniTag,
+          ch_title: ch_title,
+          ch_url: ch_url,
+          ch_detail: ch_detail,
+          ch_latestFree: ch_LtstFree,
+          ch_premium: ch_PrmFree,
+          syear: syear,
+          sseason: sseason,
+          ch_twt: ch_twt,
+          ch_site: ch_site,
+          ch_thumb: ch_thumb,
+        },
+      },
+      400
+    );
   }
   if (encode === "true") {
     ch_title = decodeURIComponent(ch_title).replace(/'/g, "''");

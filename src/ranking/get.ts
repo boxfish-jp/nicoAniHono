@@ -9,6 +9,8 @@ const rankingGet = new Hono<{ Bindings: Bindings }>();
 rankingGet.get("/", async (c) => {
   const ch_id = c.req.query("ch_id");
   const raddtime = c.req.query("raddtime");
+  const syear = c.req.query("syear");
+  const sseason = c.req.query("sseason");
   if (ch_id) {
     if (raddtime) {
       try {
@@ -28,6 +30,16 @@ rankingGet.get("/", async (c) => {
       } catch (e) {
         return c.json({ error: String(e) }, 500);
       }
+    }
+  }
+  if (syear && sseason && raddtime) {
+    try {
+      let { results } = await c.env.DB.prepare(
+        `SELECT chlist.syear, chlist.sseason, ranking.* FROM ranking INNER JOIN chlist ON ranking.ch_id = chlist.ch_id WHERE chlist.syear = ${syear} AND chlist.sseason = ${sseason} AND raddtime < "${raddtime}" ORDER BY raddtime DESC LIMIT 1`
+      ).all();
+      return c.json({ result: results });
+    } catch (e) {
+      return c.json({ error: String(e) }, 500);
     }
   }
   try {
