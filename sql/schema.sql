@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `chlist` (
     ch_site TEXT,
     ch_thumb TEXT
 );
+CREATE INDEX IF NOT EXISTS idx_chlist_ch_id ON chlist(ch_id);
 
 DROP TABLE IF EXISTS `ranking`;
 CREATE TABLE IF NOT EXISTS `ranking` (
@@ -35,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `ranking` (
     r_diff_mylist INTEGER,
     r_diff_comment INTEGER
 );
+CREATE INDEX IF NOT EXISTS idx_ranking_ch_id ON ranking(ch_id);
 
 DROP TABLE IF EXISTS `season`;
 CREATE TABLE IF NOT EXISTS `season` (
@@ -58,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
     ch_seq_desc TEXT,
     ch_seq_posted TEXT
 );
+CREATE INDEX IF NOT EXISTS idx_videos_ch_seq_id ON videos(ch_seq_id);
 
 DROP TABLE IF EXISTS `viewData`;
 CREATE TABLE IF NOT EXISTS `viewData` (
@@ -73,3 +76,4 @@ CREATE TABLE IF NOT EXISTS `viewData` (
     diff_comment INTEGER,
     diff_mylist INTEGER
 );
+CREATE INDEX IF NOT EXISTS idx_viewData_ch_seq_id ON viewData(ch_seq_id);
