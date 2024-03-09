@@ -11,6 +11,7 @@ chlistGet.get("/", async (c) => {
   const syear = c.req.query("syear");
   const sseason = c.req.query("sseason");
   const ch_NaniTag = c.req.query("ch_NaniTag");
+  const count = c.req.query("count");
   if (ch_id) {
     try {
       let { results } = await c.env.DB.prepare(
@@ -32,6 +33,15 @@ chlistGet.get("/", async (c) => {
     }
   }
   if (!ch_id && syear && sseason) {
+    if (count) {
+      try {
+        const sql = `SELECT COUNT(*) FROM chlist WHERE syear = ${syear} AND sseason = "${sseason}"`;
+        let { results } = await c.env.DB.prepare(sql).all();
+        return c.json({ result: results });
+      } catch (e) {
+        return c.json({ error: e }, 500);
+      }
+    }
     try {
       let { results } = await c.env.DB.prepare(
         `SELECT * FROM chlist WHERE syear = ${syear} AND sseason = "${sseason}"`
