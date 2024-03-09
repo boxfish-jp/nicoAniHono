@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import betweenDay from "../lib/betweenDay";
 
 type Bindings = {
   DB: D1Database;
@@ -46,8 +47,9 @@ viewDataGet.get("/", async (c) => {
     }
   }
   if (syear && sseason && daddtime) {
+    const between = betweenDay(new Date(daddtime));
     try {
-      const sql = `SELECT chlist.syear, chlist.sseason, viewData.* FROM viewData INNER JOIN chlist ON viewData.ch_id = chlist.ch_id WHERE chlist.syear = '${syear}' AND chlist.sseason = '${sseason}' AND daddtime < '${daddtime}' ORDER BY daddtime DESC LIMIT 1`;
+      const sql = `SELECT chlist.syear, chlist.sseason, viewData.* FROM viewData INNER JOIN chlist ON viewData.ch_id = chlist.ch_id WHERE chlist.syear = '${syear}' AND chlist.sseason = '${sseason}' AND daddtime < '${between[0]}' AND daddtime > '${between[1]}`;
       let { results } = await c.env.DB.prepare(sql).all();
       console.log(results);
       return c.json({ result: results });
