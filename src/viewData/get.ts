@@ -14,6 +14,7 @@ viewDataGet.get("/", async (c) => {
   const daddtime = c.req.query("daddtime");
   const syear = c.req.query("syear");
   const sseason = c.req.query("sseason");
+  const limit = c.req.query("limit");
   if (ch_seq_id) {
     if (daddtime) {
       try {
@@ -49,7 +50,19 @@ viewDataGet.get("/", async (c) => {
   if (syear && sseason && daddtime) {
     const between = betweenDay(new Date(daddtime));
     try {
-      const sql = `SELECT chlist.syear, chlist.sseason, viewData.* FROM viewData INNER JOIN chlist ON viewData.ch_id = chlist.ch_id WHERE chlist.syear = '${syear}' AND chlist.sseason = '${sseason}' AND daddtime < '${between[0]}' AND daddtime > '${between[1]}`;
+      const sql = `SELECT chlist.syear, chlist.sseason, viewData.* FROM viewData INNER JOIN chlist ON viewData.ch_id = chlist.ch_id WHERE chlist.syear = '${syear}' AND chlist.sseason = '${sseason}' AND daddtime < '${between[0]}' AND daddtime > '${between[1]}'`;
+      let { results } = await c.env.DB.prepare(sql).all();
+      console.log(results);
+
+      return c.json({ result: results });
+    } catch (e) {
+      return c.json({ error: String(e) }, 500);
+    }
+  }
+  if (ch_id && limit) {
+    try {
+      const sql = `SELECT * FROM viewData WHERE ch_id = '${ch_id}' ORDER BY daddtime DESC LIMIT ${limit}`;
+      console.log(sql);
       let { results } = await c.env.DB.prepare(sql).all();
       console.log(results);
       return c.json({ result: results });
