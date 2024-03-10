@@ -1,23 +1,8 @@
 const betweenDay = (date: Date) => {
-  let startOfDay = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate(),
-    0,
-    0,
-    0
-  );
-  let endOfDay = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate(),
-    23,
-    59,
-    59
-  );
+  let beforeDay = new Date(date.getTime() - 24 * 60 * 60 * 1000);
   return [
-    startOfDay.toLocaleString("sv-SE", { timeZone: "Asia/Tokyo" }),
-    endOfDay.toLocaleString("sv-SE", { timeZone: "Asia/Tokyo" }),
+    beforeDay.toLocaleString("sv-SE", { timeZone: "Asia/Tokyo" }),
+    date.toLocaleString("sv-SE", { timeZone: "Asia/Tokyo" }),
   ];
 };
 
