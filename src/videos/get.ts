@@ -7,11 +7,22 @@ type Bindings = {
 const videosGet = new Hono<{ Bindings: Bindings }>();
 
 videosGet.get("/", async (c) => {
+  const video_id = c.req.query("video_id");
   const ch_id = c.req.query("ch_id");
   const ch_seq = c.req.query("ch_seq");
   const ch_seq_id = c.req.query("ch_seq_id");
   const syear = c.req.query("syear");
   const sseason = c.req.query("sseason");
+  if (video_id) {
+    const sql = `SELECT * FROM videos WHERE video_id = '${video_id}'`;
+    console.log(sql);
+    try {
+      let { results } = await c.env.DB.prepare(sql).all();
+      return c.json({ result: results });
+    } catch (e) {
+      return c.json({ error: e }, 500);
+    }
+  }
   if (ch_id) {
     if (ch_seq) {
       try {
