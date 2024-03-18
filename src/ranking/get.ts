@@ -15,6 +15,7 @@ rankingGet.get("/", async (c) => {
   const limit = c.req.query("limit");
   const offset = c.req.query("offset");
   const order = c.req.query("order");
+  const loose = c.req.query("loose");
   if (ch_id) {
     if (raddtime) {
       try {
@@ -37,10 +38,11 @@ rankingGet.get("/", async (c) => {
     }
   }
   if (syear && sseason && raddtime) {
-    const between = betweenDay(new Date(raddtime));
+    const between = betweenDay(new Date(raddtime), loose);
     if (limit && offset && order) {
       const previous = betweenDay(
-        new Date(new Date(raddtime).getTime() - 24 * 60 * 60 * 1000)
+        new Date(new Date(raddtime).getTime() - 24 * 60 * 60 * 1000),
+        loose
       );
       try {
         const sql = `SELECT current_ranking.ranking_id AS current_ranking_id,
