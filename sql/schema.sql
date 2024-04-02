@@ -9,8 +9,6 @@ CREATE TABLE IF NOT EXISTS `chlist` (
     ch_detail TEXT,
     ch_LtstFree INTEGER,
     ch_PrmFree INTEGER,
-    syear INTEGER,
-    sseason INTEGER,
     ch_twt TEXT,
     ch_site TEXT,
     ch_thumb TEXT
