@@ -79,6 +79,7 @@ CREATE INDEX IF NOT EXISTS idx_viewData_ch_seq_id ON viewData(ch_seq_id);
 DROP TABLE IF EXISTS `schedule`;
 CREATE TABLE IF NOT EXISTS `schedule` (
     schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    saddtime TEXT DEFAULT (datetime('now','localtime')) ,
     syear INTEGER,
     sseason INTEGER,
     ch_id INTEGER
