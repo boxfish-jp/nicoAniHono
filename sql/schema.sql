@@ -77,3 +77,12 @@ CREATE TABLE IF NOT EXISTS `viewData` (
     diff_mylist INTEGER
 );
 CREATE INDEX IF NOT EXISTS idx_viewData_ch_seq_id ON viewData(ch_seq_id);
+
+DROP TABLE IF EXISTS `schedule`;
+CREATE TABLE IF NOT EXISTS `schedule` (
+    schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    syear INTEGER,
+    sseason INTEGER,
+    ch_id INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_schedule_ch_id ON schedule(ch_id);
