@@ -46,7 +46,8 @@ chlistGet.get("/", async (c) => {
   if (!ch_id && syear && sseason) {
     if (count) {
       try {
-        const sql = `SELECT COUNT(*) FROM chlist WHERE syear = ${syear} AND sseason = "${sseason}"`;
+        const sql = `SELECT COUNT(*) FROM (SELECT chlist.*, schedule.* FROM chlist INNER JOIN schedule ON chlist.ch_id = schedule.ch_id WHERE schedule.syear = ${syear} AND schedule.sseason = ${sseason})`;
+        console.log(sql);
         let { results } = await c.env.DB.prepare(sql).all();
         return c.json({ result: results });
       } catch (e) {
@@ -54,9 +55,9 @@ chlistGet.get("/", async (c) => {
       }
     }
     try {
-      let { results } = await c.env.DB.prepare(
-        `SELECT * FROM chlist WHERE syear = ${syear} AND sseason = "${sseason}"`
-      ).all();
+      const sql = `SELECT chlist.*, schedule.* FROM chlist INNER JOIN schedule ON chlist.ch_id = schedule.ch_id WHERE schedule.syear = ${syear} AND schedule.sseason = ${sseason}`;
+      console.log(sql);
+      let { results } = await c.env.DB.prepare(sql).all();
       return c.json({ result: results });
     } catch (e) {
       return c.json({ error: e }, 500);

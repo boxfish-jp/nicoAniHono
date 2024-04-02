@@ -51,7 +51,7 @@ viewDataGet.get("/", async (c) => {
   if (syear && sseason && daddtime) {
     const between = betweenDay(new Date(daddtime), loose);
     try {
-      const sql = `SELECT chlist.syear, chlist.sseason, viewData.* FROM viewData INNER JOIN chlist ON viewData.ch_id = chlist.ch_id WHERE chlist.syear = '${syear}' AND chlist.sseason = '${sseason}' AND daddtime > '${between[0]}' AND daddtime < '${between[1]}'`;
+      const sql = `SELECT schedule.syear, schedule.sseason, viewData.* FROM viewData INNER JOIN schedule ON viewData.ch_id = schedule.ch_id WHERE schedule.syear = '${syear}' AND schedule.sseason = '${sseason}' AND daddtime > '${between[0]}' AND daddtime < '${between[1]}'`;
       console.log(sql);
       let { results } = await c.env.DB.prepare(sql).all();
       console.log(results);

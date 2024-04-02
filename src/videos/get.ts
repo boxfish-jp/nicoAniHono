@@ -55,9 +55,9 @@ videosGet.get("/", async (c) => {
   }
   if (syear && sseason) {
     try {
-      let { results } = await c.env.DB.prepare(
-        `SELECT chlist.syear, chlist.sseason, videos.* FROM videos INNER JOIN chlist ON videos.ch_id = chlist.ch_id WHERE chlist.syear = '${syear}' AND chlist.sseason = '${sseason}'`
-      ).all();
+      const sql = `SELECT schedule.syear, schedule.sseason, videos.* FROM videos INNER JOIN schedule ON videos.ch_id = schedule.ch_id WHERE schedule.syear = '${syear}' AND schedule.sseason = '${sseason}'`;
+      console.log(sql);
+      let { results } = await c.env.DB.prepare(sql).all();
       return c.json({ result: results });
     } catch (e) {
       return c.json({ error: e }, 500);

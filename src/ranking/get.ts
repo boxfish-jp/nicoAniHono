@@ -67,16 +67,13 @@ rankingGet.get("/", async (c) => {
     previous_ranking.r_ave_view_rank AS previous_r_ave_view_rank,
     previous_ranking.r_ave_mylist_rank AS previous_r_ave_mylist_rank,
     previous_ranking.r_ave_comment_rank AS previous_r_ave_comment_rank,
-    chlist.syear AS syear,
-    chlist.sseason AS sseason,
     chlist.ch_title,
-    chlist.syear,
-    chlist.sseason,
     chlist.ch_title,
     chlist.ch_url,
     chlist.ch_LtstFree,
     chlist.ch_PrmFree,
-    chlist.ch_thumb
+    chlist.ch_thumb,
+    schedule.*
 FROM
     ranking AS current_ranking
 INNER JOIN 
@@ -84,9 +81,11 @@ INNER JOIN
     previous_raddtime > '${previous[0]}' AND previous_raddtime < '${previous[1]}' AND current_ranking_id != previous_ranking_id 
 INNER JOIN
     chlist ON current_ranking.ch_id = chlist.ch_id
+INNER JOIN
+    schedule ON chlist.ch_id = schedule.ch_id
 WHERE
-    chlist.syear = ${syear}
-    AND chlist.sseason = ${sseason}
+    schedule.syear = ${syear}
+    AND schedule.sseason = ${sseason}
 ORDER BY
     current_ranking.${order} ASC LIMIT ${limit} OFFSET ${offset};`;
         console.log(sql);
@@ -97,7 +96,7 @@ ORDER BY
       }
     }
     try {
-      const sql = `SELECT chlist.syear, chlist.sseason, ranking.* FROM ranking INNER JOIN chlist ON ranking.ch_id = chlist.ch_id WHERE chlist.syear = ${syear} AND chlist.sseason = ${sseason} AND ranking.raddtime > '${between[0]}' AND ranking.raddtime < '${between[1]}'`;
+      const sql = `SELECT schedule.syear, schedule.sseason, ranking.* FROM ranking INNER JOIN schedule ON ranking.ch_id = schedule.ch_id WHERE schedule.syear = ${syear} AND schedule.sseason = ${sseason} AND ranking.raddtime > '${between[0]}' AND ranking.raddtime < '${between[1]}'`;
       console.log(sql);
       let { results } = await c.env.DB.prepare(sql).all();
       return c.json({ result: results });
