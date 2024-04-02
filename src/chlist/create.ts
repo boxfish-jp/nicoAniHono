@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import seasonCreate from "../season/create";
 
 type Bindings = {
   DB: D1Database;
@@ -60,12 +59,30 @@ chlistCreate.get("/create", async (c) => {
     ch_title = decodeURIComponent(ch_title).replace(/'/g, "''");
     ch_detail = decodeURIComponent(ch_detail).replace(/'/g, "''");
   }
+
   try {
-    const sql = `INSERT INTO chlist (ch_id, ch_NaniTag, ch_title, ch_url, ch_detail, ch_LtstFree, ch_PrmFree, syear, sseason, ch_twt, ch_site, ch_thumb) VALUES ('${ch_id}', '${ch_NaniTag}', '${ch_title}', '${ch_url}', '${ch_detail}', '${ch_LtstFree}', '${ch_PrmFree}', '${syear}', '${sseason}', '${ch_twt}', '${ch_site}', '${ch_thumb}')`;
-    console.log(sql);
-    let { results } = await c.env.DB.prepare(sql).all();
-    console.log(results);
-    return c.json({ result: results });
+    let { results } = await c.env.DB.prepare(
+      `SELECT * FROM chlist WHERE ch_id = ${ch_id}`
+    ).all();
+    if (results.length == 0) {
+      try {
+        const sql = `INSERT INTO chlist (ch_id, ch_NaniTag, ch_title, ch_url, ch_detail, ch_LtstFree, ch_PrmFree,  ch_twt, ch_site, ch_thumb) VALUES ('${ch_id}', '${ch_NaniTag}', '${ch_title}', '${ch_url}', '${ch_detail}', '${ch_LtstFree}', '${ch_PrmFree}', '${ch_twt}', '${ch_site}', '${ch_thumb}')`;
+        console.log(sql);
+        let { results } = await c.env.DB.prepare(sql).all();
+        console.log(results);
+      } catch (e) {
+        return c.json({ error: e }, 500);
+      }
+    }
+    try {
+      const sql = `INSERT INTO schedule (ch_id, syear, sseason) VALUES ('${ch_id}', '${syear}', '${sseason}')`;
+      console.log(sql);
+      let { results } = await c.env.DB.prepare(sql).all();
+      console.log(results);
+      return c.json({ result: results });
+    } catch (e) {
+      return c.json({ error: e }, 500);
+    }
   } catch (e) {
     return c.json({ error: e }, 500);
   }
