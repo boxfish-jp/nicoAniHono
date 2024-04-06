@@ -75,10 +75,9 @@ rankingGet.get("/", async (c) => {
     chlist.ch_thumb,
     schedule.*
 FROM
-    ranking AS current_ranking
-INNER JOIN 
-    ranking AS previous_ranking ON current_ch_id = previous_ch_id AND current_raddtime > '${between[0]}' AND current_raddtime < '${between[1]}' AND
-    previous_raddtime > '${previous[0]}' AND previous_raddtime < '${previous[1]}' AND current_ranking_id != previous_ranking_id 
+    (SELECT * FROM ranking WHERE raddtime > '${between[0]}' AND raddtime < '${between[1]}') AS current_ranking
+LEFT JOIN 
+    (SELECT * FROM ranking WHERE raddtime > '${previous[0]}' AND raddtime < '${previous[1]}') AS previous_ranking ON current_ch_id = previous_ch_id 
 INNER JOIN
     chlist ON current_ranking.ch_id = chlist.ch_id
 INNER JOIN
