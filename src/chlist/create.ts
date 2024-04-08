@@ -75,6 +75,13 @@ chlistCreate.get("/create", async (c) => {
       }
     }
     try {
+      const sql = `SELECT * FROM schedule WHERE ch_id = ${ch_id} AND syear = ${syear} AND sseason = ${sseason}`;
+      let { results } = await c.env.DB.prepare(sql).all();
+      if (results.length > 0) {
+        return c.json({ error: "Already exists" }, 200);
+      }
+    } catch (e) {}
+    try {
       const sql = `INSERT INTO schedule (ch_id, syear, sseason) VALUES ('${ch_id}', '${syear}', '${sseason}')`;
       console.log(sql);
       let { results } = await c.env.DB.prepare(sql).all();
